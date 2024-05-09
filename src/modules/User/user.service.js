@@ -2,17 +2,27 @@ const bcrypt = require('bcrypt');
 const UserModel = require('./user.model');
 class UserService {
   static async createUser(userData) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const user = await UserModel.create({
-      email: userData.email,
-      username: userData.username,
-      password: hashedPassword,
-      phone:userData.phone,
-      role:userData.role,
-      avatar:userData.avatar,
-      address:userData.address
-    });
-    return user;
+    try {
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      const user = await UserModel.create({
+        email: userData.email,
+        username: userData.username,
+        password: hashedPassword,
+        phone: userData.phone,
+        role: userData.role,
+        avatar: userData.avatar,
+        address: userData.address
+      });
+      return user;
+    } catch (error) {
+      if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+        // Duplicate email error
+        throw new Error("Email already exists");
+      } else {
+        // Other errors
+        throw new Error("Failed to create user");
+      }
+    }
   }
 
   static async getAllUsers() {
@@ -48,9 +58,9 @@ class UserService {
   }
 
   static async deleteUserById(userId) {
-    const user = await UserModel.findByIdAndUpdate(
+    console.log(userId);
+    const user = await UserModel.findByIdAndDelete(
       userId,
-      { new: true }
     );
     if (!user) {
       throw new NotFoundError("User not found");

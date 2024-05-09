@@ -19,7 +19,7 @@ class UserController {
   }
 
   async getUserById(req, res) {
-    const user = await UserService.getUserById(req.params.userId);
+    const user = await UserService.getUserById(req.params.id);
     new OK({
       message: "Get user by ID successfully!",
       metadata: user,
@@ -27,7 +27,7 @@ class UserController {
   }
 
   async updateUserById(req, res) {
-    const user = await UserService.updateUserById(req.params.userId, req.body);
+    const user = await UserService.updateUserById(req.params.id, req.body);
     new OK({
       message: "Update user by ID successfully!",
       metadata: user,
@@ -35,7 +35,7 @@ class UserController {
   }
 
   async deleteUserById(req, res) {
-    const user = await UserService.deleteUserById(req.params.userId);
+    const user = await UserService.deleteUserById(req.params.id);
     new OK({
       message: "Delete user by ID successfully!",
       metadata: user,
