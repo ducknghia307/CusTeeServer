@@ -1,3 +1,4 @@
+const { CREATED, OK } = require('../../core/success.response');
 const UserService = require("./user.service");
 
 class UserController {

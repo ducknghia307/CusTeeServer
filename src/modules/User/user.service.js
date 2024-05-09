@@ -7,6 +7,10 @@ class UserService {
       email: userData.email,
       username: userData.username,
       password: hashedPassword,
+      phone:userData.phone,
+      role:userData.role,
+      avatar:userData.avatar,
+      address:userData.address
     });
     return user;
   }
@@ -54,3 +58,4 @@ class UserService {
     return user;
   }
 }
+module.exports = UserService;
