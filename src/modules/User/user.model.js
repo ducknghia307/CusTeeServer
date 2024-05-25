@@ -15,28 +15,25 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: [
-    {
-      type: String,
-      enum: ['user', 'admin'],
-      default: "user",
-    },
-  ],
+  role: {
+    type: String,
+    default: "user",
+  },
   phone: {
     type: String,
     required: true,
   },
   avatar: {
     type: String,
-    required: true,
+   
   },
   address: {
     type: String,
-    required: true,
+    
   },
-//   userStatus: {
-//     type: Boolean,
-//   },
-},{timestamps:true});
+  refreshToken:{
+    type: String,
+  }
+}, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

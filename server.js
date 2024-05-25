@@ -37,9 +37,10 @@ connectDB()
 
 app.use(logger)
 
-app.use(cors())
-console.log(process.env.NODE_ENV)
-
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow requests from this origin
+    credentials: true // Allow credentials (cookies)
+  }));
 app.use(express.json());
 
 app.use(cookieParser())

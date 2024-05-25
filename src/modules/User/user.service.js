@@ -67,5 +67,22 @@ class UserService {
     }
     return user;
   }
+
+  static async changePassword(userId, oldPassword, newPassword) {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      throw new Error("Incorrect old password");
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    return user;
+  }
 }
 module.exports = UserService;
