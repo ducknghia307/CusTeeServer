@@ -45,14 +45,14 @@ class UserService {
     if (!user) {
       throw new NotFoundError("User not found");
     }
-    if (updatedUserData.password) {
-      const hashedPassword = await bcrypt.hash(
-        updatedUserData.password,
-        10
-      );
-      user.password = hashedPassword;
-      await user.save();
-    }
+    // if (updatedUserData.password) {
+    //   const hashedPassword = await bcrypt.hash(
+    //     updatedUserData.password,
+    //     10
+    //   );
+    //   user.password = hashedPassword;
+    //   await user.save();
+    // }
 
     return user;
   }

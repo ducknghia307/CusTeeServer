@@ -21,6 +21,7 @@ class UserController {
   });
 
   getUserById = asyncHandler(async (req, res) => {
+    console.log(req.params.id);
     const user = await UserService.getUserById(req.params.id);
     new OK({
       message: "Get user by ID successfully!",
