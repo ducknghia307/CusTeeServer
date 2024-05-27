@@ -63,7 +63,6 @@ const login = async (req, res) => {
 
 const refresh = (req, res) => {
   const cookies = req.cookies;
-  console.log('adnjadwa',cookies);
   if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
 
   const refreshToken = cookies.jwt;
