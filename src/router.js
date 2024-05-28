@@ -9,6 +9,7 @@ router.get("/checkstatus", (req, res, next) => {
     });
 });
 router.use("/api/user", require("./modules/User/user.route"));
+router.use("/otp", require("./modules/Otp/otp.route"));
 router.use("/auth", require("./modules/Auth/auth.route"));
 
 module.exports = router;
