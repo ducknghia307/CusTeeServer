@@ -13,10 +13,10 @@ class UserController {
   });
 
   getAllUsers = asyncHandler(async (req, res) => {
-    const users = await UserService.getAllUsers();
+    const { users, totalUsers } = await UserService.getAllUsers();
     new OK({
       message: "Get all users successfully!",
-      metadata: users,
+      metadata: { users, totalUsers },
     }).send(res);
   });
 
