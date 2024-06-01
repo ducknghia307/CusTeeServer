@@ -113,7 +113,7 @@ const register = async (req, res) => {
 
     const refreshToken = generateRefreshToken(user);
     user.refreshToken = refreshToken;
-    await user.save();
+    await user.save();  
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,15 +15,6 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    role: {
-      type: String,
-      default: "user",
-    },
-    quantityId: {
-      type: mongoose.Schema.Types.ObjectId,
-      require: true,
-      ref: "Quantity",
-    },
     color: {
       type: String,
       default: "white",
@@ -33,9 +24,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "T-shirt",
       required: true,
-    },
-    discount: {
-      type: String,
     },
     image: {
       type: String,
