@@ -27,7 +27,8 @@ class UserService {
 
   static async getAllUsers() {
     const users = await UserModel.find({ role: "user" });
-    return users;
+    const totalUsers = await UserModel.countDocuments({ role: "user" });
+    return { users, totalUsers };
   }
 
   static async getUserById(userId) {

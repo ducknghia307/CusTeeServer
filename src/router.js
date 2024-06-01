@@ -8,6 +8,8 @@ router.get("/checkstatus", (req, res, next) => {
     message: "api ok",
   });
 });
+
+router.use("/otp", require("./modules/Otp/otp.route"));
 router.use("/auth", require("./modules/Auth/auth.route"));
 router.use("/api/user", require("./modules/User/user.route"));
 router.use("/api/product", require("./modules/Product/product.route"));

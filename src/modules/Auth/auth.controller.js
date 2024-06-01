@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { logger } = require("../../middlewares/logger");
 
+
 const generateAccessToken = (user) => {
   return jwt.sign(
     {
@@ -72,7 +73,9 @@ const refresh = (req, res) => {
     async (err, decoded) => {
       if (err) return res.status(403).json({ message: "Forbidden" });
 
-      const foundUser = await User.findOne({ username: decoded.username }).exec();
+      const foundUser = await User.findOne({
+        username: decoded.username,
+      }).exec();
       if (!foundUser) return res.status(401).json({ message: "Unauthorized" });
 
       const accessToken = generateAccessToken(foundUser);
@@ -84,7 +87,7 @@ const refresh = (req, res) => {
 const logout = (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(204);
-  
+
   res.clearCookie("jwt", {
     httpOnly: true,
     // secure: process.env.NODE_ENV === 'production',
