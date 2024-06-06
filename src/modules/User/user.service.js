@@ -11,7 +11,9 @@ class UserService {
         phone: userData.phone,
         role: userData.role,
         avatar: userData.avatar,
-        address: userData.address
+        address: userData.address,
+        dateOfBirth: userData.dateOfBirth,
+        gender: userData.gender
       });
       return user;
     } catch (error) {

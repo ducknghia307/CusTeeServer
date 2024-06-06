@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { logger } = require("../../middlewares/logger");
 
-
 const generateAccessToken = (user) => {
   return jwt.sign(
     {
@@ -33,6 +32,10 @@ const login = async (req, res) => {
   const foundUser = await User.findOne({ email }).exec();
   if (!foundUser) {
     return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  if (foundUser.status === "Non-Available") {
+    return res.status(403).json({ message: "Account is banned" });
   }
 
   const match = await bcrypt.compare(password, foundUser.password);
@@ -78,6 +81,10 @@ const refresh = (req, res) => {
       }).exec();
       if (!foundUser) return res.status(401).json({ message: "Unauthorized" });
 
+      if (foundUser.status === "Non-Available") {
+        return res.status(403).json({ message: "Account is banned" });
+      }
+
       const accessToken = generateAccessToken(foundUser);
       res.json({ accessToken });
     }
@@ -113,7 +120,7 @@ const register = async (req, res) => {
 
     const refreshToken = generateRefreshToken(user);
     user.refreshToken = refreshToken;
-    await user.save();  
+    await user.save();
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,

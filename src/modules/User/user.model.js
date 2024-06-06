@@ -23,9 +23,22 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  gender: {
+    type: String,
+    enum: ["Male", "Female"],
+    required: false, 
+  },
+  dateOfBirth: {
+    type: Date,
+    required: false,
+  },
+  status: {
+    type: String,
+    enum: ["Available", "Non-Available"],
+    default: "Available",
+  },
   avatar: {
     type: String,
-   
   },
   address: {
     type: String,
