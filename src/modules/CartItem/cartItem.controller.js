@@ -2,7 +2,7 @@ const { CREATED, OK } = require("../../core/success.response");
 const CartItemService = require("./cartItem.service");
 const asyncHandler = require("../../utils/asynchandler");
 
-class cartItemController {
+class CartItemController {
   createCartItem = asyncHandler(async (req, res) => {
     const cartItem = await CartItemService.createCartItem(req.body);
     new CREATED({
@@ -28,11 +28,11 @@ class cartItemController {
     }).send(res);
   });
 
-  getCartItemByCartId = asyncHandler(async (req, res) => {
+  getCartItemByUserId = asyncHandler(async (req, res) => {
     console.log(req.params.id);
-    const cartItem = await CartItemService.getCartItemByCartId(req.params.id);
+    const cartItem = await CartItemService.getCartItemByUserId(req.params.id);
     new OK({
-      message: "Get cartItem by cartID successfully!",
+      message: "Get cartItem by userID successfully!",
       metadata: cartItem,
     }).send(res);
   });
@@ -59,4 +59,4 @@ class cartItemController {
   });
 }
 
-module.exports = new cartItemController();
+module.exports = new CartItemController();

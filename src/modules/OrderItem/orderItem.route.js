@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const orderItemController = require("./orderItem.controller");
+const OrderItemController = require("./orderItem.controller");
 
 router
   .route("/")
-  .get(orderItemController.getAllOrderItems)
-  .post(orderItemController.createOrderItem);
+  .get(OrderItemController.getAllOrderItems)
+  .post(OrderItemController.createOrderItem);
 
-router.get("/order/:id", orderItemController.getOrderItemByOrderId);
-router.get("/:id", orderItemController.getOrderItemById);
+router.get("/order/:id", OrderItemController.getOrderItemByOrderId);
+router.get("/:id", OrderItemController.getOrderItemById);
 
 module.exports = router;

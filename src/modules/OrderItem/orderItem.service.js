@@ -23,7 +23,10 @@ class OrderItemService {
   }
 
   static async getOrderItemById(orderItemId) {
-    const orderItem = await OrderItemModel.findById(orderItemId);
+    const orderItem = await OrderItemModel.findById(orderItemId).populate([
+      "orderId",
+      "productId",
+    ]);
     if (!orderItem) {
       throw new NotFoundError("orderItem not found");
     }
@@ -31,7 +34,10 @@ class OrderItemService {
   }
 
   static async getOrderItemByOrderId(orderId) {
-    const orderItem = await OrderItemModel.find({ orderId: orderId });
+    const orderItem = await OrderItemModel.find({ orderId: orderId }).populate([
+      "orderId",
+      "productId",
+    ]);
     if (!orderItem) {
       throw new NotFoundError("orderItem not found");
     }
