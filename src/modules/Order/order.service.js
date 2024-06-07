@@ -5,14 +5,16 @@ class OrderService {
       const order = await OrderModel.create({
         userId: data.userId,
         code: data.code,
+        total: data.total,
         paymentMethod: data.paymentMethod,
+        deliveryInfo: data.deliveryInfo,
         deliveryOptions: data.deliveryOptions,
         discountValue: data.discountValue,
         status: data.status,
       });
       return order;
     } catch (err) {
-      throw new Error("Failed to create order");
+      throw new Error("Failed to create order: " + err);
     }
   }
 
@@ -30,7 +32,11 @@ class OrderService {
   }
 
   static async getOrderByUserId(userId) {
-    const order = await OrderModel.find({ userId: userId });
+    const order = await OrderModel.find({ userId: userId })
+      .populate("userId")
+      .sort({
+        createdAt: 1,
+      });
     if (!order) {
       throw new NotFoundError("Order not found");
     }

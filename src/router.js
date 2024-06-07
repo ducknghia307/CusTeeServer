@@ -11,7 +11,6 @@ router.get("/checkstatus", (req, res, next) => {
 router.use("/auth", require("./modules/Auth/auth.route"));
 router.use("/api/user", require("./modules/User/user.route"));
 router.use("/api/product", require("./modules/Product/product.route"));
-router.use("/api/cart", require("./modules/Cart/cart.route"));
 router.use("/api/cartItem", require("./modules/CartItem/cartItem.route"));
 router.use("/api/order", require("./modules/Order/order.route"));
 router.use("/api/orderItem", require("./modules/OrderItem/orderItem.route"));
