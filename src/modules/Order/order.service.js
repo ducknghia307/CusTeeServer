@@ -35,7 +35,7 @@ class OrderService {
     const order = await OrderModel.find({ userId: userId })
       .populate("userId")
       .sort({
-        createdAt: 1,
+        createdAt: -1,
       });
     if (!order) {
       throw new NotFoundError("Order not found");
