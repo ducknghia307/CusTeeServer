@@ -38,6 +38,10 @@ const login = async (req, res) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
+  if (foundUser.status === "Non-Available") {
+    return res.status(403).json({ message: "Account is banned" });
+  }
+
   const match = await bcrypt.compare(password, foundUser.password);
   if (!match) return res.status(401).json({ message: "Unauthorized" });
 
@@ -80,6 +84,10 @@ const refresh = (req, res) => {
         username: decoded.username,
       }).exec();
       if (!foundUser) return res.status(401).json({ message: "Unauthorized" });
+
+      if (foundUser.status === "Non-Available") {
+        return res.status(403).json({ message: "Account is banned" });
+      }
 
       const accessToken = generateAccessToken(foundUser);
       res.json({ accessToken });

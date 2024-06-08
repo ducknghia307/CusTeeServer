@@ -1,12 +1,27 @@
 const mongoose = require("mongoose");
 
-const deliverySchema = new mongoose.Schema({
+const deliveryOptionsSchema = new mongoose.Schema({
   method: {
     type: String,
     required: true,
   },
   cost: {
     type: Number,
+    required: true,
+  },
+});
+
+const deliveryInfoSchema = new mongoose.Schema({
+  recipientName: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
     required: true,
   },
 });
@@ -22,13 +37,26 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    total: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     paymentMethod: {
       type: String,
       required: true,
     },
-    deliveryOptions: {
-      type: deliverySchema,
+    deliveryInfo: {
+      type: deliveryInfoSchema,
       required: true,
+    },
+    deliveryOptions: {
+      type: deliveryOptionsSchema,
+      required: true,
+    },
+    deliveryStatus: {
+      type: Boolean,
+      required: false,
     },
     discountValue: {
       type: Number,
@@ -37,7 +65,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "processing", "delivering", "completed", "cancel"],
+      enum: ["pending", "processing", "delivering", "completed", "cancelled"],
       default: "pending",
       required: true,
     },

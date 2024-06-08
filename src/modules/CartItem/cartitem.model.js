@@ -14,10 +14,10 @@ const quantitySchema = new mongoose.Schema({
 
 const cartItemSchema = new mongoose.Schema(
   {
-    cartId: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       require: true,
-      ref: "Cart",
+      ref: "User",
     },
     productId: {
       type: mongoose.Schema.Types.ObjectId,

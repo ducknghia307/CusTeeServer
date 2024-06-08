@@ -17,7 +17,7 @@ class CartItemService {
     });
     if (!foundCartItem) {
       const newCartItem = await CartItemModel.create({
-        cartId: data.cartId,
+        userId: data.userId,
         productId: data.productId,
         quantityPerSize: data.quantityPerSize,
       });
@@ -39,7 +39,7 @@ class CartItemService {
 
   static async getAllCartItems() {
     const cartItems = await CartItemModel.find().populate([
-      "cartId",
+      "userId",
       "productId",
     ]);
     return cartItems;
@@ -55,19 +55,20 @@ class CartItemService {
     return cartItem;
   }
 
-  static async getCartItemByCartId(cartId) {
-    const cartItems = await CartItemModel.find({ cartId: cartId }).populate(
-      "productId"
-    );
+  static async getCartItemByUserId(userId) {
+    const cartItems = await CartItemModel.find({ userId: userId }).populate([
+      "productId",
+      "userId",
+    ]);
     if (!cartItems) {
       throw new NotFoundError("CartItem not found");
     }
     return cartItems;
   }
 
-  static async getCartItemByCartIdAndProductId(cartId, productId) {
+  static async getCartItemByUserIdAndProductId(userId, productId) {
     const cartItem = await CartItemModel.find({
-      cartId: cartId,
+      userId: userId,
       productId: productId,
     });
     if (!cartItem) {
@@ -118,8 +119,8 @@ class CartItemService {
     return updatedCartItem;
   }
 
-  static async deleteCartItem(cartId) {
-    const cartItems = await CartItemModel.findByIdAndDelete(cartId);
+  static async deleteCartItem(cartItemId) {
+    const cartItems = await CartItemModel.findByIdAndDelete(cartItemId);
     if (!cartItems) {
       throw new NotFoundError("CartItem not found");
     }
