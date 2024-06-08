@@ -7,7 +7,8 @@ class CartItemService {
       data.quantityPerSize[1].size !== "M" ||
       data.quantityPerSize[2].size !== "L" ||
       data.quantityPerSize[3].size !== "XL" ||
-      data.quantityPerSize[4].size !== "XXL"
+      data.quantityPerSize[4].size !== "XXL" ||
+        data.quantityPerSize[5].size !== "XXXL"
     )
       throw new Error("Invalid quantityPerSize");
 

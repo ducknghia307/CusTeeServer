@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema(
     images: {
       front: { type: String, required: true },
       back: { type: String, required: true }
-    }
+    },
   },
   { timestamps: true }
 );

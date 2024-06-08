@@ -1,6 +1,7 @@
 const ProductModel = require("./product.model");
 class ProductService {
   static async createProduct(data) {
+    console.log(":::::::;", data)
     try {
       const product = await ProductModel.create({
         userId: data.userId,
@@ -8,12 +9,13 @@ class ProductService {
         price: data.price,
         pattern: data.pattern,
         images: {
-          front: data.frontImage,
-          back: data.backImage
+          front: data.images.front,
+          back: data.images.back
         }
       });
       return product;
     } catch (err) {
+      console.log(err);
       throw new Error("Failed to create product");
     }
   }
