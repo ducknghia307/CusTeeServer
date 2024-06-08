@@ -2,7 +2,10 @@ const User = require("../User/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { logger } = require("../../middlewares/logger");
-
+const {
+  ConflictRequestError,
+  InternalError,
+} = require("../../core/error.response");
 
 const generateAccessToken = (user) => {
   return jwt.sign(
@@ -113,7 +116,7 @@ const register = async (req, res) => {
 
     const refreshToken = generateRefreshToken(user);
     user.refreshToken = refreshToken;
-    await user.save();  
+    await user.save();
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
@@ -126,10 +129,74 @@ const register = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+const loginWithGoogle = async (req, res) => {
+  const { username, email, avatar } = req.body;
+  console.log(username, email, avatar);
+  let foundUser = await User.findOne({ email }).lean();
+
+  if (foundUser) {
+    // User exists, proceed to login
+    const accessToken = generateAccessToken(foundUser);
+    const refreshToken = generateRefreshToken(foundUser);
+
+    foundUser.refreshToken = refreshToken;
+    await User.findByIdAndUpdate(foundUser._id, { refreshToken });
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({
+      accessToken,
+      user: {
+        id: foundUser._id,
+        username: foundUser.username,
+        role: foundUser.role,
+        email: foundUser.email,
+      },
+    });
+  } else {
+    // New user, proceed to sign up
+    const newUser = await User.create({
+      username,
+      email,
+      avatar,
+    });
+
+    if (!newUser) {
+      throw new InternalError("Cannot create new user");
+    }
+
+    foundUser = newUser;
+
+    const accessToken = generateAccessToken(foundUser);
+    const refreshToken = generateRefreshToken(foundUser);
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      // secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(201).json({
+      accessToken,
+      user: {
+        id: foundUser._id,
+        username: foundUser.username,
+        role: foundUser.role,
+        email: foundUser.email,
+      },
+    });
+  }
+};
+
 
 module.exports = {
   login,
   refresh,
   logout,
   register,
+  loginWithGoogle,
 };

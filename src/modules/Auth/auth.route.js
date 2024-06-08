@@ -13,4 +13,6 @@ router.route('/logout').post(authController.logout);
 
 router.route('/register').post(authController.register);
 
+router.route('/google_login').post(authController.loginWithGoogle);
+
 module.exports = router;

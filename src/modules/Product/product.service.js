@@ -6,11 +6,11 @@ class ProductService {
         userId: data.userId,
         name: data.name,
         price: data.price,
-        color: data.color,
         pattern: data.pattern,
-        image: data.image,
-        wordDecoration: data.wordDecoration,
-        imageDecoration: data.imageDecoration,
+        images: {
+          front: data.frontImage,
+          back: data.backImage
+        }
       });
       return product;
     } catch (err) {

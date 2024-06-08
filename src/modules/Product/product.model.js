@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      require: true,
+      required: true,
       ref: "User",
     },
     name: {
@@ -15,24 +15,15 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    color: {
-      type: String,
-      default: "white",
-      required: true,
-    },
     pattern: {
       type: String,
       default: "T-shirt",
       required: true,
     },
-    image: {
-      type: String,
-      require: "true",
-    },
-    wordDecoration: {
-      type: String,
-    },
-    imageDecoration: {},
+    images: {
+      front: { type: String, required: true },
+      back: { type: String, required: true }
+    }
   },
   { timestamps: true }
 );
