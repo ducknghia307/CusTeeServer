@@ -20,7 +20,6 @@ class CartItemController {
   });
 
   getCartItemById = asyncHandler(async (req, res) => {
-    console.log(req.params.id);
     const cartItem = await CartItemService.getCartItemById(req.params.id);
     new OK({
       message: "Get cartItem by ID successfully!",
@@ -29,7 +28,6 @@ class CartItemController {
   });
 
   getCartItemByUserId = asyncHandler(async (req, res) => {
-    console.log(req.params.id);
     const cartItem = await CartItemService.getCartItemByUserId(req.params.id);
     new OK({
       message: "Get cartItem by userID successfully!",
@@ -50,7 +48,6 @@ class CartItemController {
   });
 
   deleteCartItem = asyncHandler(async (req, res) => {
-    console.log(req.params.id);
     const cartItem = await CartItemService.deleteCartItem(req.params.id);
     new OK({
       message: "Cart item has been deleted successfully!",

@@ -6,7 +6,7 @@ class OrderItemController {
   createOrderItem = asyncHandler(async (req, res) => {
     const newOrderItem = await OrderItemService.createOrderItem(req.body);
     new CREATED({
-      message: "orderItem created successfully",
+      message: "OrderItem created successfully",
       metadata: newOrderItem,
     }).send(res);
   });
