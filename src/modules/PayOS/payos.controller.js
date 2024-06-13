@@ -1,6 +1,6 @@
 const asyncHandler = require("../../utils/asynchandler");
 const { CREATED, OK } = require("../../core/success.response");
-const PayOSService = require('./payos.service')
+const PayOSService = require("./payos.service");
 
 class PayOSController {
     createPaymentLink = asyncHandler(async (req, res) => {
@@ -9,7 +9,7 @@ class PayOSController {
             console.log("::::::::::::",result);
             new CREATED({
                 message: "Payment link created",
-                metadata:  result , // Ensure the result is included in metadata
+                metadata: result,
             }).send(res);
         } catch (error) {
             console.error("Error in createPaymentLink handler: ", error);
@@ -17,13 +17,13 @@ class PayOSController {
         }
     });
 
-    getPaymentLinkInformation = asyncHandler(async (req, res) => {
-        const result = PayOSService.getPaymentLinkInformation(req.body.orderId)
-        new CREATED({
-            message: "Got payment link information",
-            metadata: result,
-        }).send(res);
-    });
+  getPaymentLinkInformation = asyncHandler(async (req, res) => {
+    const result = PayOSService.getPaymentLinkInformation(req.body.orderId);
+    new OK({
+      message: "Got payment link information",
+      metadata: result,
+    }).send(res);
+  });
 }
 
-module.exports = new PayOSController()
+module.exports = new PayOSController();

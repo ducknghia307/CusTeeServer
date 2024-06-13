@@ -27,6 +27,14 @@ class ProductController {
       metadata: product,
     }).send(res);
   });
+
+  updateProductById = asyncHandler(async (req, res) => {
+    const product = await ProductService.updateProductById(req.params.id, req.body);
+    new OK({
+      message: "Update product by ID successfully!",
+      metadata: product,
+    }).send(res);
+  });
 }
 
 module.exports = new ProductController();

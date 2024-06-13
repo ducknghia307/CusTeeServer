@@ -45,6 +45,14 @@ class OrderController {
       metadata: order,
     }).send(res);
   });
+  
+  updateOrderStatus = asyncHandler(async (req, res) => {
+    const updatedOrder = await OrderService.updateOrderStatus(req.params.id, req.body.status);
+    new OK({
+      message: "Order status updated successfully",
+      metadata: updatedOrder,
+    }).send(res);
+  });
 }
 
 module.exports = new OrderController();

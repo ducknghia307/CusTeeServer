@@ -10,5 +10,6 @@ router
 router.get("/code/:code", orderController.getOrderByCode);
 router.get("/user/:id", orderController.getOrderByUserId);
 router.get("/:id", orderController.getOrderById);
+router.put("/:id", orderController.updateOrderStatus);
 
 module.exports = router;
