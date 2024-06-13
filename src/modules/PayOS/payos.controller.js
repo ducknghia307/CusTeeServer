@@ -9,7 +9,7 @@ class PayOSController {
             console.log("::::::::::::",result);
             new CREATED({
                 message: "Payment link created",
-                metadata: { checkoutUrl: result }, // Ensure the result is included in metadata
+                metadata:  result , // Ensure the result is included in metadata
             }).send(res);
         } catch (error) {
             console.error("Error in createPaymentLink handler: ", error);

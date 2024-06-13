@@ -2,13 +2,13 @@ const CartItemModel = require("./cartItem.model");
 class CartItemService {
   static async createCartItem(data) {
     if (
-      data.quantityPerSize.length != 5 ||
+      data.quantityPerSize.length != 6 ||
       data.quantityPerSize[0].size !== "S" ||
       data.quantityPerSize[1].size !== "M" ||
       data.quantityPerSize[2].size !== "L" ||
       data.quantityPerSize[3].size !== "XL" ||
       data.quantityPerSize[4].size !== "XXL" ||
-        data.quantityPerSize[5].size !== "XXXL"
+      data.quantityPerSize[5].size !== "XXXL"
     )
       throw new Error("Invalid quantityPerSize");
 
