@@ -2,15 +2,22 @@ const OrderItemModel = require("./orderItem.model");
 class OrderItemService {
   static async createOrderItem(data) {
     try {
-      const orderItem = await OrderItemModel.create({
+      const foundOrderItem = await OrderItemModel.findOne({
         productId: data.productId,
         orderId: data.orderId,
-        quantityPerSize: data.quantityPerSize,
-        unitPrice: data.unitPrice,
       });
-      return orderItem;
+      if (foundOrderItem) throw new Error("OrderItem has already existed!");
+      else {
+        const orderItem = await OrderItemModel.create({
+          productId: data.productId,
+          orderId: data.orderId,
+          quantityPerSize: data.quantityPerSize,
+          unitPrice: data.unitPrice,
+        });
+        return orderItem;
+      }
     } catch (err) {
-      throw new Error("Failed to create orderItem");
+      throw new Error("Failed to create orderItem: ", err);
     }
   }
 
@@ -28,7 +35,7 @@ class OrderItemService {
       "productId",
     ]);
     if (!orderItem) {
-      throw new NotFoundError("orderItem not found");
+      throw new Error("orderItem not found");
     }
     return orderItem;
   }
@@ -39,7 +46,7 @@ class OrderItemService {
       "productId",
     ]);
     if (!orderItem) {
-      throw new NotFoundError("orderItem not found");
+      throw new Error("orderItem not found");
     }
     return orderItem;
   }

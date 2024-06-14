@@ -19,6 +19,8 @@ const deliveryInfoSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
+    minLength: 9,
+    maxLength: 11,
   },
   address: {
     type: String,
@@ -43,9 +45,18 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     paymentMethod: {
       type: String,
       required: true,
+    },
+    paymentLink: {
+      type: String,
+      required: false,
     },
     deliveryInfo: {
       type: deliveryInfoSchema,

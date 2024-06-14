@@ -28,9 +28,9 @@ class OrderController {
     }).send(res);
   });
 
-  getOrderByUserId = asyncHandler(async (req, res) => {
+  getOrdersByUserId = asyncHandler(async (req, res) => {
     console.log(req.params.id);
-    const order = await OrderService.getOrderByUserId(req.params.id);
+    const order = await OrderService.getOrdersByUserId(req.params.id);
     new OK({
       message: "Get order by userId successfully!",
       metadata: order,
@@ -45,6 +45,59 @@ class OrderController {
       metadata: order,
     }).send(res);
   });
+
+  updateOrderByCode = asyncHandler(async (req, res) => {
+    const result = await OrderService.updateOrderByCode(
+      req.params.code,
+      req.body
+    );
+    new OK({
+      message: "Update delivery information successfully!",
+      metadata: result,
+    }).send(res);
+  });
+
+  updateDeliveryInfo = asyncHandler(async (req, res) => {
+    const result = await OrderService.updateDeliveryInfo(
+      req.params.code,
+      req.body
+    );
+    new OK({
+      message: "Update delivery information successfully!",
+      metadata: result,
+    }).send(res);
+  });
+
+  updatePaymentMethod = asyncHandler(async (req, res) => {
+    const result = await OrderService.updatePaymentMethod(
+      req.params.code,
+      req.body
+    );
+    new OK({
+      message: "Update payment method successfully!",
+      metadata: result,
+    }).send(res);
+  });
+
+  setOrderPaidStatusToTrue = asyncHandler(async (req, res) => {
+    const code = req.params.code;
+    const result = await OrderService.setOrderPaidStatusToTrue(code);
+    new OK({
+      message: "Update order paid status successfully!",
+      metadata: result,
+    }).send(res);
+  });
+
+  updateOrderStatusByCode = asyncHandler(async (req, res) => {
+    const result = await OrderService.updateOrderStatusByCode(
+      req.params.code,
+      req.body.status
+    );
+    new OK({
+      message: "Update order status by code successfully!",
+      metadata: result,
+    }).send(res);
+  });
   
   updateOrderStatus = asyncHandler(async (req, res) => {
     const updatedOrder = await OrderService.updateOrderStatus(req.params.id, req.body.status);
@@ -52,6 +105,14 @@ class OrderController {
       message: "Order status updated successfully",
       metadata: updatedOrder,
     }).send(res);
+  });
+  
+  deleteOrderById = asyncHandler(async (req, res) => {
+    const result = await OrderService.deleteOrderById(req.params.id);
+    new OK({
+      message: "Delete order by id successfully!",
+      metadata: result,
+      }).send(res);
   });
 }
 

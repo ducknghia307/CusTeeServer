@@ -2,18 +2,19 @@ const CartItemModel = require("./cartItem.model");
 class CartItemService {
   static async createCartItem(data) {
     if (
-      data.quantityPerSize.length != 5 ||
-      data.quantityPerSize[0].size !== "S" ||
-      data.quantityPerSize[1].size !== "M" ||
-      data.quantityPerSize[2].size !== "L" ||
-      data.quantityPerSize[3].size !== "XL" ||
-      data.quantityPerSize[4].size !== "XXL" ||
-        data.quantityPerSize[5].size !== "XXXL"
-    )
+      data.quantityPerSize.length != 6 ||
+      !data.quantityPerSize.some((q) => q.size === "S") ||
+      !data.quantityPerSize.some((q) => q.size === "M") ||
+      !data.quantityPerSize.some((q) => q.size === "L") ||
+      !data.quantityPerSize.some((q) => q.size === "XL") ||
+      !data.quantityPerSize.some((q) => q.size === "XXL") ||
+      !data.quantityPerSize.some((q) => q.size === "XXXL")
+    ) {
+      console.log("QUANTITY PER SIZE: ", data.quantityPerSize);
       throw new Error("Invalid quantityPerSize");
-
+    }
     const foundCartItem = await CartItemModel.findOne({
-      cartId: data.cartId,
+      userId: data.userId,
       productId: data.productId,
     });
     if (!foundCartItem) {
