@@ -32,6 +32,16 @@ class ProductService {
     }
     return product;
   }
+
+  static async updateProductById(productId, updatedProductData) {
+    const product = await ProductModel.findByIdAndUpdate(productId, updatedProductData, {
+      new: true,
+    });
+    if (!product) {
+      throw new NotFoundError("Product not found");
+    }
+    return product;
+  }
 }
 
 module.exports = ProductService;

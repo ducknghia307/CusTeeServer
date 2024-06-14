@@ -11,6 +11,8 @@ router.get("/code/:code", OrderController.getOrderByCode);
 router.get("/user/:id", OrderController.getOrdersByUserId);
 router.get("/:id", OrderController.getOrderById);
 
+router.put("/:id", orderController.updateOrderStatus);
+
 router.patch("/deliveryInfo/:code", OrderController.updateDeliveryInfo);
 router.patch("/paidStatus/:code", OrderController.setOrderPaidStatusToTrue);
 router.patch("/status/:code", OrderController.updateOrderStatusByCode);

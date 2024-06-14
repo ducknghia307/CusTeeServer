@@ -98,13 +98,21 @@ class OrderController {
       metadata: result,
     }).send(res);
   });
-
+  
+  updateOrderStatus = asyncHandler(async (req, res) => {
+    const updatedOrder = await OrderService.updateOrderStatus(req.params.id, req.body.status);
+    new OK({
+      message: "Order status updated successfully",
+      metadata: updatedOrder,
+    }).send(res);
+  });
+  
   deleteOrderById = asyncHandler(async (req, res) => {
     const result = await OrderService.deleteOrderById(req.params.id);
     new OK({
       message: "Delete order by id successfully!",
       metadata: result,
-    }).send(res);
+      }).send(res);
   });
 }
 

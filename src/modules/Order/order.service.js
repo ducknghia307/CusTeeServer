@@ -118,6 +118,16 @@ class OrderService {
     }
     return order;
   }
+
+  static async updateOrderStatus(orderId, newStatus) {
+    const order = await OrderModel.findById(orderId);
+    if (!order) {
+      throw new NotFoundError("Order not found");
+    }
+    order.status = newStatus;
+    await order.save();
+    return order;
+  }
 }
 
 module.exports = OrderService;
