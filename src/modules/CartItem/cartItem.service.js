@@ -1,32 +1,29 @@
 const CartItemModel = require("./cartItem.model");
 class CartItemService {
   static async createCartItem(data) {
-    if (
-      data.quantityPerSize.length != 6 ||
-      data.quantityPerSize[0].size !== "S" ||
-      data.quantityPerSize[1].size !== "M" ||
-      data.quantityPerSize[2].size !== "L" ||
-      data.quantityPerSize[3].size !== "XL" ||
-      data.quantityPerSize[4].size !== "XXL" ||
-      data.quantityPerSize[5].size !== "XXXL"
-    )
-      throw new Error("Invalid quantityPerSize");
+    const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
+    const quantityPerSize = sizes.map((size) => {
+      const sizeEntry = data.quantityPerSize.find((q) => q.size === size);
+      return sizeEntry ? sizeEntry : { size, quantity: 0 };
+    });
+
+    console.log("QUANTITY PER SIZE: ", quantityPerSize);
 
     const foundCartItem = await CartItemModel.findOne({
-      cartId: data.cartId,
+      userId: data.userId,
       productId: data.productId,
     });
     if (!foundCartItem) {
       const newCartItem = await CartItemModel.create({
         userId: data.userId,
         productId: data.productId,
-        quantityPerSize: data.quantityPerSize,
+        quantityPerSize: quantityPerSize,
       });
       return newCartItem;
     } else {
       const newQuantityPerSize = this.mergeQuantityPerSize(
         foundCartItem.quantityPerSize,
-        data.quantityPerSize
+        quantityPerSize
       );
       const updatedCartItem = await CartItemModel.findByIdAndUpdate(
         foundCartItem._id,

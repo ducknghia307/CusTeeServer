@@ -53,8 +53,8 @@ class PayOSService {
       orderCode: data.orderCode,
       amount: data.amount,
       description: data.description,
-      cancelUrl: "http://localhost:3000/cart",
-      returnUrl: "http://localhost:3000/checkout/completed",
+      cancelUrl: data.cancelUrl,
+      returnUrl: data.returnUrl,
       items: data.items,
       buyerName: data.buyerName,
       buyerPhone: data.buyerPhone,
@@ -73,8 +73,8 @@ class PayOSService {
         orderCode: data.orderCode,
         amount: data.amount,
         description: data.description,
-        cancelUrl: "http://localhost:3000/cart",
-        returnUrl: "http://localhost:3000/checkout/completed",
+        cancelUrl: data.cancelUrl,
+        returnUrl: data.returnUrl,
         items: data.items,
         buyerName: data.buyerName,
         buyerPhone: data.buyerPhone,
@@ -90,8 +90,12 @@ class PayOSService {
 
   static async getPaymentLinkInformation(orderId) {
     const paymentLink = await payOS.getPaymentLinkInformation(orderId);
-    console.log("paymentLink: ", paymentLink);
     return paymentLink;
+  }
+
+  static async cancelPaymentLink(orderId) {
+    const result = await payOS.cancelPaymentLink(orderId);
+    return result;
   }
 }
 
