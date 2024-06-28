@@ -1,4 +1,4 @@
-const CartItemModel = require("./cartItem.model");
+const CartItemModel = require("./cartitem.model");
 class CartItemService {
   static async createCartItem(data) {
     const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
