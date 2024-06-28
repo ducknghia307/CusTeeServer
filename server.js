@@ -32,15 +32,13 @@ const errorHandler = require('./src/middlewares/errorHandler')
 const { loggerEvents } = require('./src/middlewares/logger')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const corsOptions=require('./src/config/corsOptions')
 
 connectDB()
 
 app.use(logger)
 
-app.use(cors({
-    origin: 'http://localhost:3000', // Allow requests from this origin
-    credentials: true // Allow credentials (cookies)
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(cookieParser())
