@@ -1,24 +1,16 @@
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
-const   verifyJWT = (req, res, next) => {
-    console.log('Request headers:', req.headers);
-    const authHeader = req.headers.authorization || req.headers.Authorization;
-    console.log('Authorization header:', authHeader);
-    if (!authHeader?.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Unauthorized' })
-    }
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-    const token = authHeader.split(' ')[1]
+  if (token == null) return res.status(401).json({ message: "Unauthorized" });
 
-    jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, decoded) => {
-            if (err) return res.status(403).json({ message: 'Forbidden' })
-            req.user = decoded
-            next()
-        }
-    )
-}
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).json({ message: "Forbidden" });
+    req.user = user;
+    next();
+  });
+};
 
-module.exports = verifyJWT 
+module.exports = authenticateToken;

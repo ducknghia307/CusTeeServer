@@ -51,15 +51,9 @@ const login = async (req, res) => {
   foundUser.refreshToken = refreshToken;
   await foundUser.save();
 
-  res.cookie("jwt", refreshToken, {
-    httpOnly: true,
-
-    // secure: process.env.NODE_ENV === 'production',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
-
   res.json({
     accessToken,
+    refreshToken,
     user: {
       id: foundUser._id,
       username: foundUser.username,
@@ -67,14 +61,14 @@ const login = async (req, res) => {
       email: foundUser.email,
     },
   });
-  console.log(foundUser);
 };
 
 const refresh = (req, res) => {
-  const cookies = req.cookies;
-  if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+  const authHeader = req.headers["authorization"];
+  const refreshToken = authHeader && authHeader.split(" ")[1];
 
-  const refreshToken = cookies.jwt;
+  if (!refreshToken) return res.status(401).json({ message: "Unauthorized" });
+
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
@@ -123,18 +117,17 @@ const register = async (req, res) => {
       phone,
     });
 
+    const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
+
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-
-      // secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+    res.status(201).json({
+      user,
+      accessToken,
+      refreshToken,
     });
-
-    res.status(201).json({ user, refreshToken });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
