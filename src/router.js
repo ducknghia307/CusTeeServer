@@ -12,6 +12,7 @@ router.get("/checkstatus", (req, res, next) => {
 router.use("/otp", require("./modules/Otp/otp.route"));
 router.use("/auth", require("./modules/Auth/auth.route"));
 router.use("/api/user", require("./modules/User/user.route"));
+router.use("/api/shirt", require("./modules/ShirtSample/shirtSample.route"));
 router.use("/api/product", require("./modules/Product/product.route"));
 router.use("/api/cartItem", require("./modules/CartItem/cartItem.route"));
 router.use("/api/order", require("./modules/Order/order.route"));
