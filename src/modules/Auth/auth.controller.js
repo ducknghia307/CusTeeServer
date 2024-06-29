@@ -14,7 +14,7 @@ const generateAccessToken = (user) => {
       role: user.role,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "1d" } // Adjusted to 15 minutes for consistency
+    { expiresIn: "50m" } // Adjusted to 15 minutes for consistency
   );
 };
 
@@ -53,6 +53,7 @@ const login = async (req, res) => {
 
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
+
     // secure: process.env.NODE_ENV === 'production',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
@@ -128,6 +129,7 @@ const register = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
+
       // secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -184,6 +186,7 @@ const loginWithGoogle = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
+
       // secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -199,7 +202,6 @@ const loginWithGoogle = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   login,
