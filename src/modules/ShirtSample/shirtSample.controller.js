@@ -44,7 +44,9 @@ class ShirtSampleController {
   });
 
   getShirtSampleByTypeAndColor = asyncHandler(async (req, res) => {
-    const { type, color } = req.body;
+    const { type, color } = req.query;
+    console.log(type)
+    console.log(color)
     const shirtSample = await ShirtSampleService.getShirtSampleByTypeAndColor(type, color);
     new OK({
       message: "Get shirt sample by type and color successfully!",

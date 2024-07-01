@@ -145,14 +145,9 @@ const loginWithGoogle = async (req, res) => {
     foundUser.refreshToken = refreshToken;
     await User.findByIdAndUpdate(foundUser._id, { refreshToken });
 
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-      // secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
     return res.status(200).json({
       accessToken,
+      refreshToken,
       user: {
         id: foundUser._id,
         username: foundUser.username,
@@ -177,15 +172,9 @@ const loginWithGoogle = async (req, res) => {
     const accessToken = generateAccessToken(foundUser);
     const refreshToken = generateRefreshToken(foundUser);
 
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-
-      // secure: process.env.NODE_ENV === 'production',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
     return res.status(201).json({
       accessToken,
+      refreshToken,
       user: {
         id: foundUser._id,
         username: foundUser.username,
