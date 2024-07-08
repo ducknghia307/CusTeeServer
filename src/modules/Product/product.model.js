@@ -24,6 +24,14 @@ const productSchema = new mongoose.Schema(
       front: { type: String, required: true },
       back: { type: String, required: true }
     },
+    accepted:{
+      type:Boolean,
+      default: false
+    },
+    public:{
+      type:Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

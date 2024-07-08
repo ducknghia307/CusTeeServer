@@ -1,7 +1,7 @@
 // controllers/userController.js
-const { CREATED, OK } = require('../../core/success.response');
+const { CREATED, OK } = require("../../core/success.response");
 const UserService = require("./user.service");
-const asyncHandler = require('../../utils/asynchandler');
+const asyncHandler = require("../../utils/asynchandler");
 
 class UserController {
   createUser = asyncHandler(async (req, res) => {
@@ -28,6 +28,14 @@ class UserController {
       metadata: user,
     }).send(res);
   });
+   getAdmin = asyncHandler(async (req, res) => {
+    const admins = await UserService.getAdmins();
+    new OK({
+      message: "Get admin users successfully!",
+      metadata: admins,
+    }).send(res);
+  });
+  
 
   updateUserById = asyncHandler(async (req, res) => {
     const user = await UserService.updateUserById(req.params.id, req.body);
@@ -45,16 +53,18 @@ class UserController {
     }).send(res);
   });
 
-   changePassword = asyncHandler(async (req, res) => {
+  changePassword = asyncHandler(async (req, res) => {
     const { userId, oldPassword, newPassword } = req.body;
-    const user = await UserService.changePassword(userId, oldPassword, newPassword);
+    const user = await UserService.changePassword(
+      userId,
+      oldPassword,
+      newPassword
+    );
     new OK({
       message: "Password changed successfully!",
       metadata: user,
     }).send(res);
   });
 }
-
-
 
 module.exports = new UserController();

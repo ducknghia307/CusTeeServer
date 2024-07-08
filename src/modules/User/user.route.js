@@ -10,7 +10,8 @@ router
   .get(usersController.getAllUsers)
   .post(usersController.createUser);
 
-router.get("/:id",usersController.getUserById)
+router.get("/admin", usersController.getAdmin);
+router.get("/:id", usersController.getUserById);
 router.post("/change_password", usersController.changePassword);
 router.patch("/:id", usersController.updateUserById);
 router.delete("/:id", usersController.deleteUserById);

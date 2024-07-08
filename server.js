@@ -20,41 +20,53 @@
 //          /
 // =================================================================
 
-require('dotenv').config()
-const mongoose = require('mongoose')
-const connectDB = require('./src/config/dbConn')
-const express = require('express')
-const app = express()
-const path = require('path')
-const PORT = process.env.PORT || 5000
-const { logger } = require('./src/middlewares/logger')
-const errorHandler = require('./src/middlewares/errorHandler')
-const { loggerEvents } = require('./src/middlewares/logger')
-const cookieParser = require('cookie-parser')
-const cors = require('cors')
-const corsOptions=require('./src/config/corsOptions')
+require("dotenv").config();
+const { Server } = require("socket.io");
+const mongoose = require("mongoose");
+const connectDB = require("./src/config/dbConn");
+const express = require("express");
+const app = express();
+const path = require("path");
+const PORT = process.env.PORT || 5000;
+const { logger } = require("./src/middlewares/logger");
+const errorHandler = require("./src/middlewares/errorHandler");
+const { loggerEvents } = require("./src/middlewares/logger");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const corsOptions = require("./src/config/corsOptions");
+const socketHandler = require("./src/socket/socketHandler");
 
-connectDB()
+connectDB();
 
-app.use(logger)
-
+app.use(logger);
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
+app.use("/", express.static(path.join(__dirname, "/public")));
+app.use(require("./src/router"));
+app.use(errorHandler);
 
-app.use(cookieParser())
+mongoose.connection.once("open", () => {
+  console.log("Connected to MongoDB");
 
-app.use('/', express.static(path.join(__dirname, '/public')))
+  const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 
-app.use(require('./src/router'))
+  const io = new Server(server, {
+    cors: {
+      origin: "*",
+    },
+  });
 
-app.use(errorHandler)
+  // Use the socket handler
+  socketHandler(io);
+});
 
-mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB')
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
-})
-
-mongoose.connection.on('error', err => {
-    console.log(err)
-    logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`, 'mongoErrLog.log')
-})
+mongoose.connection.on("error", (err) => {
+  console.log(err);
+  loggerEvents(
+    `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
+    "mongoErrLog.log"
+  );
+});

@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');   
-const UserModel = require('./user.model');
+const bcrypt = require("bcrypt");
+const UserModel = require("./user.model");
 class UserService {
   static async createUser(userData) {
     try {
@@ -13,7 +13,7 @@ class UserService {
         avatar: userData.avatar,
         address: userData.address,
         dateOfBirth: userData.dateOfBirth,
-        gender: userData.gender
+        gender: userData.gender,
       });
       return user;
     } catch (error) {
@@ -62,9 +62,7 @@ class UserService {
 
   static async deleteUserById(userId) {
     console.log(userId);
-    const user = await UserModel.findByIdAndDelete(
-      userId,
-    );
+    const user = await UserModel.findByIdAndDelete(userId);
     if (!user) {
       throw new NotFoundError("User not found");
     }
@@ -86,6 +84,15 @@ class UserService {
     await user.save();
 
     return user;
+  }
+  static async getAdmins() {
+    try {
+      const admin = await UserModel.findOne({ role: "admin" });
+      return admin._id;
+    } catch (error) {
+      console.error("Failed to get admin users:", error);
+      throw new Error("Failed to get admin users");
+    }
   }
 }
 module.exports = UserService;
