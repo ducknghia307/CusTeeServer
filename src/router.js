@@ -20,5 +20,6 @@ router.use("/api/cartItem", require("./modules/CartItem/cartItem.route"));
 router.use("/api/order", require("./modules/Order/order.route"));
 router.use("/api/orderItem", require("./modules/OrderItem/orderItem.route"));
 router.use("/api/payos", require("./modules/PayOS/payos.route"));
+router.use("/api/address", require("./modules/Address/address.route"));
 
 module.exports = router;
